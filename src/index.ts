@@ -1,5 +1,4 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { PrismaClient } from "./generated/prisma";
 import { cors } from "hono/cors";
 import { productListSchema } from "./modules/product/schema";
 import { Scalar } from "@scalar/hono-api-reference";
