@@ -11,7 +11,7 @@ async function seedProducts() {
   for (const product of dataProducts) {
     const upsertProduct = await prisma.product.upsert({
       where: {
-        slug: product.slug,
+        slug: createSlug(product.name),
       },
       update: {},
       create: {

@@ -21,10 +21,10 @@ model Product {
   name String
 
   description     String?
+  stockQuantity   Int      @default(0)
   price           Int      @default(0)
   featuredProduct Boolean? @default(false)
   imageUrl        String?
-  stockQuantity   Int      @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

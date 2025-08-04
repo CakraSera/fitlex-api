@@ -2,35 +2,13 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
 import { productListSchema } from "./modules/product/schema";
 import { Scalar } from "@scalar/hono-api-reference";
-
-const prisma = new PrismaClient();
+import { productsRoutes } from "./routes/products-routes";
 
 const app = new OpenAPIHono();
 app.use(cors());
 
-const route = createRoute({
-  method: "get",
-  path: "/products",
-  responses: {
-    200: {
-      description: "List of products",
-      content: {
-        "application/json": {
-          schema: productListSchema,
-        },
-      },
-    },
-  },
-});
-
-app.openapi(route, async (c) => {
-  const products = await prisma.product.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
-  return c.json(products);
-});
+// List Routes
+app.route("/products", productsRoutes);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {
@@ -43,6 +21,9 @@ app.doc("/openapi.json", {
 });
 
 // Use the middleware to serve the Scalar API Reference at /scalar
-app.get("/", Scalar({ url: "/openapi.json", theme: "kepler" }));
+app.get(
+  "/",
+  Scalar({ url: "/openapi.json", title: "Fitlex API", theme: "kepler" })
+);
 
 export default app;
