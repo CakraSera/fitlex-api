@@ -1,13 +1,35 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 
 export const productSchema = z.object({
-  id: z.string(),
-  slug: z.string(),
-  name: z.string(),
-  price: z.number(),
-  featuredProduct: z.boolean().optional(),
-  imageUrl: z.string().optional(),
-  stockQuantity: z.number().optional(),
+  id: z.string().openapi({
+    description: "The unique identifier for the product",
+    example: "01H8MECHZX3TBDSZ7XRADM79XV",
+  }),
+  slug: z.string().openapi({
+    description: "The slug for the product",
+    example: "kettlebell-24kg",
+  }),
+  name: z.string().openapi({
+    description: "The name of the product",
+    example: "Kettlebell 24kg",
+  }),
+  price: z.number().openapi({
+    description: "The price of the product",
+    example: 10000,
+  }),
+  featuredProduct: z.boolean().optional().openapi({
+    description: "Whether the product is featured",
+    example: true,
+  }),
+  imageUrl: z.string().optional().openapi({
+    description: "The URL of the product image",
+    example:
+      "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/200x200/",
+  }),
+  stockQuantity: z.number().optional().openapi({
+    description: "The stock quantity of the product",
+    example: 10,
+  }),
 });
 
 export const productListSchema = z.array(productSchema);
