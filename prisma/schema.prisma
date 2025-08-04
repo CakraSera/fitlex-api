@@ -16,6 +16,7 @@ datasource db {
 
 model Product {
   id               String   @id @default(ulid())
+  slug             String   @unique
   name             String
   description      String?
   price            Int
