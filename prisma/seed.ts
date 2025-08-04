@@ -1,13 +1,14 @@
-import { dataProducts } from "../data/products";
-import { createSlug } from "../lib/slug";
+import { dataProducts } from "./data/products";
+import { createSlug } from "../src/lib/slug";
 import { PrismaClient } from "../src/generated/prisma";
+
 const prisma = new PrismaClient();
 
 async function main() {
-  await insertProducts();
+  await seedProducts();
 }
 
-async function insertProducts() {
+async function seedProducts() {
   for (const product of dataProducts) {
     const upsertProduct = await prisma.product.upsert({
       where: {
@@ -19,7 +20,7 @@ async function insertProducts() {
         slug: createSlug(product.name),
       },
     });
-    console.info(`Inserted or updated product: ${upsertProduct.name}`);
+    console.info(`Product: ${upsertProduct.name}`);
   }
 }
 

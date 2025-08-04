@@ -15,12 +15,17 @@ datasource db {
 }
 
 model Product {
-  id               String   @id @default(ulid())
-  slug             String   @unique
-  name             String
-  description      String?
-  price            Int
-  featured_product Boolean?
-  image_url        String?
-  stock_quantity   Int      @default(0)
+  id String @id @default(ulid())
+
+  slug String @unique
+  name String
+
+  description     String?  @default("No description")
+  price           Int
+  featuredProduct Boolean? @default(false)
+  imageUrl        String?
+  stockQuantity   Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
