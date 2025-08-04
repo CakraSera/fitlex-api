@@ -6,10 +6,20 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Product {
+  id               String   @id @default(ulid())
+  name             String
+  description      String?
+  price            Int
+  featured_product Boolean?
+  image_url        String?
+  stock_quantity   Int      @default(0)
 }
