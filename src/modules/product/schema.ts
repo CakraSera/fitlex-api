@@ -7,11 +7,11 @@ export const productSchema = z.object({
   }),
   slug: z.string().openapi({
     description: "The slug for the product",
-    example: "kettlebell-24kg",
+    example: "collapsible-kettlebell",
   }),
   name: z.string().openapi({
     description: "The name of the product",
-    example: "Kettlebell 24kg",
+    example: "Collapsible Kettlebell",
   }),
   price: z.number().openapi({
     description: "The price of the product",
