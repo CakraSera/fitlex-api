@@ -20,11 +20,43 @@ productsRoutes.openapi(
     },
   },
   async (c) => {
+    console.log("test Fetching all products");
     const products = await prisma.product.findMany({
       orderBy: {
         name: "asc",
       },
     });
+    return c.json(products);
+  }
+);
+// TODO: Kenapa slug mesti taruh dibawah featured?
+productsRoutes.openapi(
+  {
+    method: "get",
+    path: "/featured",
+    responses: {
+      200: {
+        description: "Featured products",
+        content: {
+          "application/json": {
+            schema: productListSchema,
+          },
+        },
+      },
+    },
+  },
+  async (c) => {
+    console.log("nggak jalan");
+    const products = await prisma.product.findMany({
+      where: {
+        featuredProduct: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+    console.log("Featured products:", products);
+
     return c.json(products);
   }
 );
@@ -70,34 +102,5 @@ productsRoutes.openapi(
     }
 
     return c.json(product);
-  }
-);
-
-productsRoutes.openapi(
-  {
-    method: "get",
-    path: "/featured",
-    responses: {
-      200: {
-        description: "Featured products",
-        content: {
-          "application/json": {
-            schema: productListSchema,
-          },
-        },
-      },
-    },
-  },
-  async (c) => {
-    const products = await prisma.product.findMany({
-      where: {
-        featuredProduct: true,
-      },
-      orderBy: {
-        name: "asc",
-      },
-    });
-    console.log("Featured products:", products);
-    return c.json(products);
   }
 );
