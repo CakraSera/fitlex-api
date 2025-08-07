@@ -54,6 +54,9 @@ productsRoutes.openapi(
           },
         },
       },
+      404: {
+        description: "Product not found",
+      },
     },
   },
   async (c) => {
@@ -67,5 +70,34 @@ productsRoutes.openapi(
     }
 
     return c.json(product);
+  }
+);
+
+productsRoutes.openapi(
+  {
+    method: "get",
+    path: "/featured",
+    responses: {
+      200: {
+        description: "Featured products",
+        content: {
+          "application/json": {
+            schema: productListSchema,
+          },
+        },
+      },
+    },
+  },
+  async (c) => {
+    const products = await prisma.product.findMany({
+      where: {
+        featuredProduct: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+    console.log("Featured products:", products);
+    return c.json(products);
   }
 );

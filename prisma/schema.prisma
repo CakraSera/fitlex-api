@@ -23,7 +23,7 @@ model Product {
   description     String?
   stockQuantity   Int      @default(0)
   price           Int      @default(0)
-  featuredProduct Boolean? @default(false)
+  featuredProduct Boolean @default(false)
   imageUrl        String?
 
   createdAt DateTime @default(now())

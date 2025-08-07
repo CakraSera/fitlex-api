@@ -17,11 +17,11 @@ export const productSchema = z.object({
     description: "The price of the product",
     example: 10000,
   }),
-  featuredProduct: z.boolean().optional().openapi({
+  featuredProduct: z.boolean().openapi({
     description: "Whether the product is featured",
     example: true,
   }),
-  imageUrl: z.string().optional().openapi({
+  imageUrl: z.string().nullable().optional().openapi({
     description: "The URL of the product image",
     example:
       "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/200x200/",
@@ -29,6 +29,10 @@ export const productSchema = z.object({
   stockQuantity: z.number().optional().openapi({
     description: "The stock quantity of the product",
     example: 10,
+  }),
+  description: z.string().nullable().optional().openapi({
+    description: "A brief description of the product",
+    example: "A versatile kettlebell that can be collapsed for easy storage.",
   }),
 });
 
