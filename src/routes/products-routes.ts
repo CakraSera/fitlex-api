@@ -20,7 +20,6 @@ productsRoutes.openapi(
     },
   },
   async (c) => {
-    console.log("test Fetching all products");
     const products = await prisma.product.findMany({
       orderBy: {
         name: "asc",
@@ -29,7 +28,7 @@ productsRoutes.openapi(
     return c.json(products);
   }
 );
-// TODO: Kenapa slug mesti taruh dibawah featured?
+
 productsRoutes.openapi(
   {
     method: "get",
@@ -46,7 +45,6 @@ productsRoutes.openapi(
     },
   },
   async (c) => {
-    console.log("nggak jalan");
     const products = await prisma.product.findMany({
       where: {
         featuredProduct: true,
@@ -55,7 +53,6 @@ productsRoutes.openapi(
         name: "asc",
       },
     });
-    console.log("Featured products:", products);
 
     return c.json(products);
   }
