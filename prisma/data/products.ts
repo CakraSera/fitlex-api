@@ -4,7 +4,7 @@ export const dataProducts = [
     description:
       "Innovative collapsible kettlebell, adjustable weight up to 35 lbs, ideal for travel.",
     price: 8900,
-    featuredProduct: false,
+    featuredProduct: true,
     imageUrl:
       "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/200x200/",
     stockQuantity: 8,
@@ -14,7 +14,7 @@ export const dataProducts = [
     description:
       "Adjustable, tangle-free jump rope with ball bearings for smooth rotation.",
     price: 1500,
-    featuredProduct: false,
+    featuredProduct: true,
     imageUrl:
       "https://ucarecdn.com/8632dbe9-b1dc-4052-a1e2-2a7bdd315b4a/-/preview/1000x666/",
     stockQuantity: 60,
