@@ -1,4 +1,4 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { OpenAPIHono, z } from "@hono/zod-openapi";
 import {
   productListSchema,
   productSchema,
@@ -53,6 +53,17 @@ productsRoutes.openapi(
       where: {
         featuredProduct: true,
       },
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        price: true,
+        featuredProduct: true,
+        imageUrls: true,
+        stockQuantity: true,
+        description: true,
+        category: true,
+      },
       orderBy: {
         name: "asc",
       },
@@ -66,14 +77,11 @@ productsRoutes.openapi(
   {
     method: "get",
     path: "/{slug}",
-    parameters: [
-      {
-        name: "slug",
-        in: "path",
-        required: true,
-        schema: productSlugSchema,
-      },
-    ],
+    request: {
+      params: z.object({
+        slug: productSlugSchema,
+      }),
+    },
     responses: {
       200: {
         description: "Product by slug",
