@@ -37,3 +37,10 @@ export const productSchema = z.object({
 });
 
 export const productListSchema = z.array(productSchema);
+
+export const productSlugSchema = z.object({
+  slug: z.string().openapi({
+    description: "The slug of the product",
+    example: "collapsible-kettlebell",
+  }),
+});

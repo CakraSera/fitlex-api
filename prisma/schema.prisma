@@ -20,11 +20,30 @@ model Product {
   slug String @unique
   name String
 
+  category        String
   description     String?
   stockQuantity   Int      @default(0)
   price           Int      @default(0)
-  featuredProduct Boolean @default(false)
-  imageUrl        String?
+  featuredProduct Boolean  @default(false)
+  imageUrls       String[]
+  primaryIndexUrl Int      @default(0)
+  specifications  String[]
+  benefits        String[]
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+}
+
+model Category {
+  id   String @id @default(ulid())
+  slug String @unique
+
+  name        String
+  description String?
+
+  products Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

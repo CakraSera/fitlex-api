@@ -1,5 +1,9 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { productListSchema, productSchema } from "../modules/product/schema";
+import {
+  productListSchema,
+  productSchema,
+  productSlugSchema,
+} from "../modules/product/schema";
 import { prisma } from "../lib/prisma";
 
 export const productsRoutes = new OpenAPIHono();
@@ -67,11 +71,7 @@ productsRoutes.openapi(
         name: "slug",
         in: "path",
         required: true,
-        schema: {
-          type: "string",
-          description: "The slug of the product to retrieve",
-          example: "collapsible-kettlebell",
-        },
+        schema: productSlugSchema,
       },
     ],
     responses: {
