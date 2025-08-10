@@ -2,6 +2,7 @@ import { dataProducts } from "./data/products";
 import { dataCategories } from "./data/categories";
 import { createSlug } from "../src/lib/slug";
 import { PrismaClient } from "../src/generated/prisma";
+import { generateSku } from "../src/lib/generate-sku";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -20,9 +21,12 @@ async function seedCategories() {
         ...category,
         slug: slugCategory,
       },
-      update: {},
+      update: {
+        ...category,
+        slug: slugCategory,
+      },
     });
-    console.info(`🗂️  Upserted category: ${upserted.name}`);
+    console.info(`🗂️  Inserted or updated category: ${upserted.name}`);
   }
 
   return nameToId;
@@ -30,13 +34,30 @@ async function seedCategories() {
 
 async function seedProducts() {
   for (const product of dataProducts) {
+    const { name: categoryName } = await prisma.category.findUniqueOrThrow({
+      where: { slug: createSlug(product.category) },
+      select: {
+        name: true,
+      },
+    });
+
+    const sku = generateSku(categoryName);
     const slug = createSlug(product.name);
 
     const upsertProduct = await prisma.product.upsert({
       where: { slug },
-      update: {},
+      update: {
+        ...product,
+        slug,
+        Category: {
+          connect: {
+            slug: createSlug(product.category),
+          },
+        },
+      },
       create: {
         ...product,
+        sku,
         slug,
         Category: {
           connect: {

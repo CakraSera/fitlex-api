@@ -6,7 +6,6 @@ export const dataProducts = [
     price: 8900,
     featuredProduct: true,
     imageUrls: [
-      "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/200x200/",
       "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/1000x1000/",
       "https://ucarecdn.com/44c7132b-a8dc-46cc-8d60-02aeba15dc3e/-/preview/1000x666/",
     ],
@@ -33,7 +32,6 @@ export const dataProducts = [
     price: 129000,
     featuredProduct: true,
     imageUrls: [
-      "https://ucarecdn.com/8632dbe9-b1dc-4052-a1e2-2a7bdd315b4a/-/preview/200x200/",
       "https://ucarecdn.com/8632dbe9-b1dc-4052-a1e2-2a7bdd315b4a/-/preview/1000x1000/",
       "https://ucarecdn.com/8632dbe9-b1dc-4052-a1e2-2a7bdd315b4a/-/preview/1000x666/",
     ],
@@ -73,7 +71,6 @@ export const dataProducts = [
       "Durable construction",
     ],
     imageUrls: [
-      "https://ucarecdn.com/8661c810-105d-4292-81a4-6eb48a6b43be/-/preview/200x200/",
       "https://ucarecdn.com/8661c810-105d-4292-81a4-6eb48a6b43be/-/preview/1000x1000/",
       "https://ucarecdn.com/8661c810-105d-4292-81a4-6eb48a6b43be/-/preview/1000x666/",
     ],
@@ -100,7 +97,7 @@ export const dataProducts = [
       "Portable with carrying strap",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Yoga+Mat+1",
+      "https://mg.co.id/wp-content/uploads/2020/05/103-100-yoga-mat-blue.jpg.jpg",
       "/placeholder.svg?height=400&width=400&text=Yoga+Mat+2",
     ],
     category: "Yoga & Pilates",
@@ -125,7 +122,7 @@ export const dataProducts = [
       "Compact and durable",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Foam+Roller+1",
+      "https://pulseroll.com/cdn/shop/files/refurbished-vibrating-foam-roller-pro-pulseroll-438091.jpg?v=1726600380",
       "/placeholder.svg?height=400&width=400&text=Foam+Roller+2",
     ],
     category: "Recovery",
@@ -150,7 +147,7 @@ export const dataProducts = [
       "Injury prevention",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Balance+Board+1",
+      "https://ucarecdn.com/dcc9896c-67ab-41eb-b0f6-c4c5677d4edf/-/preview/500x500/",
       "/placeholder.svg?height=400&width=400&text=Balance+Board+2",
     ],
     category: "Balance & Stability",
@@ -175,7 +172,7 @@ export const dataProducts = [
       "Compact storage",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Pull+up+Bar+1",
+      "https://ucarecdn.com/dcc9896c-67ab-41eb-b0f6-c4c5677d4edf/-/preview/500x500/",
       "/placeholder.svg?height=400&width=400&text=Pull+up+Bar+2",
     ],
     category: "Bodyweight Training",
@@ -200,7 +197,7 @@ export const dataProducts = [
       "Stress relief",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Medicine+Ball+1",
+      "https://ironbullstrength.com/cdn/shop/files/slam-ball.webp?v=1708081844",
       "/placeholder.svg?height=400&width=400&text=Medicine+Ball+2",
     ],
     category: "Functional Training",
@@ -225,7 +222,7 @@ export const dataProducts = [
       "Low-impact exercise",
     ],
     imageUrls: [
-      "/placeholder.svg?height=400&width=400&text=Pilates+Ring+1",
+      "https://images.tokopedia.net/img/cache/700/VqbcmM/2024/3/22/289c907a-6ef2-48ee-9f02-713baa102b1d.jpg",
       "/placeholder.svg?height=400&width=400&text=Pilates+Ring+2",
     ],
     category: "Yoga & Pilates",

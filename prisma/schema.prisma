@@ -17,6 +17,7 @@ datasource db {
 model Product {
   id String @id @default(ulid())
 
+  sku  String @unique
   slug String @unique
   name String
 
