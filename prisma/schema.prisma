@@ -49,3 +49,28 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model User {
+  userId String @id
+
+  username String @unique @db.VarChar(50)
+  fullName String @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+
+  passwords Password?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+}
+
+model Password {
+  id String @id
+
+  hash String?
+
+  user   User   @relation(fields: [userId], references: [userId])
+  userId String @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+}
