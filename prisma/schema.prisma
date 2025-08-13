@@ -14,43 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id String @id @default(ulid())
-
-  sku  String @unique
-  slug String @unique
-  name String
-
-  category        String
-  description     String?
-  stockQuantity   Int      @default(0)
-  price           Int      @default(0)
-  featuredProduct Boolean  @default(false)
-  imageUrls       String[]
-  primaryIndexUrl Int      @default(0)
-  specifications  String[]
-  benefits        String[]
-
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  Category   Category?  @relation(fields: [categoryId], references: [id])
-  categoryId String?
-  CartItem   CartItem[]
-}
-
-model Category {
-  id   String @id @default(ulid())
-  slug String @unique
-
-  name        String
-  description String?
-
-  products Product[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model User {
   id String @id @default(ulid())
 
@@ -91,13 +54,51 @@ model Cart {
 model CartItem {
   id String @id @default(ulid())
 
+  quantity Int @default(1)
+
   productId String
   product   Product @relation(fields: [productId], references: [id])
 
   cartId String
   cart   Cart   @relation(fields: [cartId], references: [id])
 
-  quantity Int @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id String @id @default(ulid())
+
+  sku  String @unique
+  slug String @unique
+  name String
+
+  category        String
+  description     String?
+  stockQuantity   Int      @default(0)
+  price           Int      @default(0)
+  featuredProduct Boolean  @default(false)
+  imageUrls       String[]
+  primaryIndexUrl Int      @default(0)
+  specifications  String[]
+  benefits        String[]
+
+  Category   Category?  @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  CartItem   CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id   String @id @default(ulid())
+  slug String @unique
+
+  name        String
+  description String?
+
+  products Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
