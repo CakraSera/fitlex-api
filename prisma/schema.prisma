@@ -31,10 +31,11 @@ model Product {
   specifications  String[]
   benefits        String[]
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Category   Category? @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  Category   Category?  @relation(fields: [categoryId], references: [id])
   categoryId String?
+  CartItem   CartItem[]
 }
 
 model Category {
@@ -51,7 +52,7 @@ model Category {
 }
 
 model User {
-  userId String @id
+  id String @id @default(ulid())
 
   username String @unique @db.VarChar(50)
   fullName String @db.VarChar(255)
@@ -61,16 +62,43 @@ model User {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime?
+  Cart      Cart[]
 }
 
 model Password {
-  id String @id
+  id String @id @default(ulid())
 
   hash String?
 
-  user   User   @relation(fields: [userId], references: [userId])
+  user   User   @relation(fields: [id], references: [id])
   userId String @unique
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+model Cart {
+  id String @id @default(ulid())
+
+  user   User   @relation(fields: [id], references: [id])
+  userId String @unique
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime
+  CartItem  CartItem[]
+}
+
+model CartItem {
+  id String @id @default(ulid())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id])
+
+  quantity Int @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
