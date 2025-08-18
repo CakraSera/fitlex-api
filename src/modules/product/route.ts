@@ -3,8 +3,8 @@ import {
   productListSchema,
   productSchema,
   productSlugSchema,
-} from "../modules/product/schema";
-import { prisma } from "../lib/prisma";
+} from "./schema";
+import { prisma } from "../../lib/prisma";
 
 export const productsRoutes = new OpenAPIHono();
 

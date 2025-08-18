@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { Scalar } from "@scalar/hono-api-reference";
-import { productsRoutes } from "./routes/products-routes";
+import { productsRoutes } from "./modules/product/route";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
 
