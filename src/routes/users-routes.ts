@@ -6,9 +6,9 @@ import {
 } from "../modules/product/schema";
 import { prisma } from "../lib/prisma";
 
-export const productsRoutes = new OpenAPIHono();
+export const usersRoute = new OpenAPIHono();
 
-productsRoutes.openapi(
+usersRoute.openapi(
   {
     method: "get",
     path: "/",
@@ -32,48 +32,8 @@ productsRoutes.openapi(
     return c.json(products);
   }
 );
-
-productsRoutes.openapi(
-  {
-    method: "get",
-    path: "/featured",
-    responses: {
-      200: {
-        description: "Featured products",
-        content: {
-          "application/json": {
-            schema: productListSchema,
-          },
-        },
-      },
-    },
-  },
-  async (c) => {
-    const products = await prisma.product.findMany({
-      where: {
-        featuredProduct: true,
-      },
-      select: {
-        id: true,
-        slug: true,
-        name: true,
-        price: true,
-        featuredProduct: true,
-        imageUrls: true,
-        stockQuantity: true,
-        description: true,
-        category: true,
-      },
-      orderBy: {
-        name: "asc",
-      },
-    });
-
-    return c.json(products);
-  }
-);
-
-productsRoutes.openapi(
+// Get User
+usersRoute.openapi(
   {
     method: "get",
     path: "/{slug}",

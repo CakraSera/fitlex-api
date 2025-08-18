@@ -3,7 +3,8 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { Scalar } from "@scalar/hono-api-reference";
-import { productsRoutes } from "./routes/products-routes";
+import { productsRoute } from "./modules/product/route";
+import { usersRoute } from "./routes/users-routes";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
 
@@ -28,7 +29,8 @@ app.onError((error, c) => {
   return c.json({ error: "An unexpected error occurred" }, 500);
 });
 // List Routes
-app.route("/products", productsRoutes);
+app.route("/products", productsRoute);
+app.route("/users", usersRoute);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {
