@@ -4,7 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { Scalar } from "@scalar/hono-api-reference";
 import { productsRoute } from "./modules/product/route";
-import { usersRoute } from "./routes/users-routes";
+import { userRoute } from "./modules/user/route";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
 
@@ -30,7 +30,7 @@ app.onError((error, c) => {
 });
 // List Routes
 app.route("/products", productsRoute);
-app.route("/users", usersRoute);
+app.route("/users", userRoute);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {

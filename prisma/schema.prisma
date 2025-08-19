@@ -23,8 +23,8 @@ model User {
 
   passwords Password?
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   Cart      Cart[]
 }
 
@@ -37,7 +37,7 @@ model Password {
   userId String @unique
 
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
@@ -47,7 +47,7 @@ model Cart {
   userId String @unique
 
   createdAt DateTime   @default(now())
-  updatedAt DateTime
+  updatedAt DateTime   @updatedAt
   CartItem  CartItem[]
 }
 
@@ -74,7 +74,7 @@ model Product {
   name String
 
   category        String
-  description     String?
+  description     String
   stockQuantity   Int      @default(0)
   price           Int      @default(0)
   featuredProduct Boolean  @default(false)
