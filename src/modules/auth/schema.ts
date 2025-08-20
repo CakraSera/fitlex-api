@@ -2,6 +2,7 @@ import { z } from "@hono/zod-openapi";
 
 export const AuthRegisterSchema = z.object({
   fullName: z.string(),
+  username: z.string(),
   email: z.email(),
   password: z.string(),
 });

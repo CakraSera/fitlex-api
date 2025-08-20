@@ -7,6 +7,7 @@ import { productsRoute } from "./modules/product/route";
 import { userRoute } from "./modules/user/route";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
+import { authRoute } from "./modules/auth/route";
 
 const app = new OpenAPIHono();
 app.use(cors());
@@ -31,6 +32,7 @@ app.onError((error, c) => {
 // List Routes
 app.route("/products", productsRoute);
 app.route("/users", userRoute);
+app.route("/auth", authRoute);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {
