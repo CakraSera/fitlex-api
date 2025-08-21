@@ -1,5 +1,5 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import { AuthRegisterSchema } from "./schema";
+import { AuthLoginSchema, AuthRegisterSchema } from "./schema";
 import { prisma } from "../../lib/prisma";
 import { PrivateUserSchema } from "../user/schema";
 import { hashPassword } from "../../lib/password";
@@ -17,63 +17,68 @@ authRoute.openapi(
       },
     },
     responses: {
-      200: {
-        description: "List of Users",
+      201: {
+        description: "Private Data User",
         content: { "application/json": { schema: PrivateUserSchema } },
+      },
+      400: {
+        description: "Register user failed",
       },
     },
   },
   async (c) => {
     try {
       const body = c.req.valid("json");
+
       const user = await prisma.user.create({
         data: {
           email: body.email,
           fullName: body.fullName,
-          passwords: {
+          username: body.username,
+          password: {
             create: {
               hash: await hashPassword(body.password),
             },
           },
         },
       });
-      return c.json(body);
-    } catch (error) {}
+
+      return c.json(user, 201);
+    } catch (error) {
+      return c.json({ message: "Register user failed" }, 400);
+    }
   }
 );
 
-// authRoute.openapi(
-//   {
-//     method: "get",
-//     path: "/{id}",
-//     request: {
-//       params: z.object({
-//         id: UsersIdSchema,
-//       }),
-//     },
-//     responses: {
-//       200: {
-//         description: "User by ID",
-//         content: {
-//           "application/json": {
-//             schema: PublicUserSchema,
-//           },
-//         },
-//       },
-//       404: { description: "404 not found" },
-//     },
-//   },
-//   async (c) => {
-//     const id = c.req.param("id");
-//     const user = await prisma.user.findUnique({
-//       where: { id },
-//       omit: {
-//         email: true,
-//       },
-//     });
-//     if (!user) {
-//       return c.json(404);
-//     }
-//     return c.json(user);
-//   }
-// );
+authRoute.openapi(
+  {
+    method: "get",
+    path: "/login",
+    request: {
+      body: {
+        content: { "application/json": { schema: AuthLoginSchema } },
+      },
+    },
+    responses: {
+      200: {
+        content: { "application/json": { schema: AuthLoginSchema } },
+        description: "Login Success",
+      },
+      400: { description: "Login Failed" },
+    },
+  },
+  async (c) => {
+    const body = c.req.valid("json");
+    const user = await prisma.user.findUnique({
+      where: { email: body.email },
+      include: {
+        password: true,
+      },
+    });
+    console.log(user);
+    if (!user) {
+      return c.json(400);
+    }
+    return c.json(user);
+  }
+);
