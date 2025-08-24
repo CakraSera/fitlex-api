@@ -39,9 +39,7 @@ userRoute.openapi(
     method: "get",
     path: "/{id}",
     request: {
-      params: z.object({
-        id: UsersIdSchema,
-      }),
+      params: UsersIdSchema,
     },
     responses: {
       200: {
