@@ -1,11 +1,19 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import { AuthLoginSchema, AuthRegisterSchema } from "./schema";
+import {
+  AuthHeaderSchema,
+  AuthLoginSchema,
+  AuthMeSchema,
+  AuthRegisterSchema,
+} from "./schema";
 import { prisma } from "../../lib/prisma";
 import { PrivateUserSchema } from "../user/schema";
-import { hashPassword } from "../../lib/password";
+import { hashPassword, verifyPassword } from "../../lib/password";
+import { signToken, verifyToken } from "../../lib/token";
+import { checkAuthorized } from "./middleware";
 
 export const authRoute = new OpenAPIHono();
 
+// TODO: Double email
 authRoute.openapi(
   {
     method: "post",
@@ -52,7 +60,7 @@ authRoute.openapi(
 
 authRoute.openapi(
   {
-    method: "get",
+    method: "post",
     path: "/login",
     request: {
       body: {
@@ -75,10 +83,46 @@ authRoute.openapi(
         password: true,
       },
     });
-    console.log(user);
     if (!user) {
-      return c.json(400);
+      return c.notFound();
     }
+    if (!user.password) {
+      return c.notFound();
+    }
+
+    const isPasswordMatch = await verifyPassword(
+      body.password,
+      user.password.hash
+    );
+
+    if (!isPasswordMatch) {
+      return c.json({ message: "Password Invalid" }, 400);
+    }
+
+    const token = await signToken(user.id);
+
+    return c.json(token);
+  }
+);
+
+authRoute.openapi(
+  {
+    method: "get",
+    path: "/me",
+    request: { headers: AuthHeaderSchema },
+    middleware: checkAuthorized,
+    responses: {
+      200: {
+        content: { "application/json": { schema: PrivateUserSchema } },
+        description: "Get authenticated user success",
+      },
+      400: {
+        description: "User not found",
+      },
+    },
+  },
+  async (c) => {
+    const user = c.get("user");
     return c.json(user);
   }
 );
