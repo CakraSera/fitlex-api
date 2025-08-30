@@ -12,7 +12,7 @@ export const AuthLoginSchema = z.object({
   password: z.string(),
 });
 
-export const AuthLoginSuccessSchema = z.string();
+export const AuthLoginSuccessSchema = z.object({ token: z.string() });
 
 export const AuthHeaderSchema = z.object({
   Authorization: z.string().openapi({

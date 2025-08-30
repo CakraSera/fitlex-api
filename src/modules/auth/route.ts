@@ -2,6 +2,7 @@ import { OpenAPIHono, z } from "@hono/zod-openapi";
 import {
   AuthHeaderSchema,
   AuthLoginSchema,
+  AuthLoginSuccessSchema,
   AuthMeSchema,
   AuthRegisterSchema,
 } from "./schema";
@@ -69,7 +70,7 @@ authRoute.openapi(
     },
     responses: {
       200: {
-        content: { "application/json": { schema: AuthLoginSchema } },
+        content: { "application/json": { schema: AuthLoginSuccessSchema } },
         description: "Login Success",
       },
       400: { description: "Login Failed" },
@@ -101,7 +102,7 @@ authRoute.openapi(
 
     const token = await signToken(user.id);
 
-    return c.json(token);
+    return c.json({ token });
   }
 );
 
