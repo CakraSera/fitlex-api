@@ -114,7 +114,7 @@ authRoute.openapi(
     middleware: checkAuthorized,
     responses: {
       200: {
-        content: { "application/json": { schema: PrivateUserSchema } },
+        content: { "application/json": { schema: AuthMeSchema } },
         description: "Get authenticated user success",
       },
       400: {

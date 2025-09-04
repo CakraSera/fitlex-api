@@ -3,13 +3,16 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { Scalar } from "@scalar/hono-api-reference";
-import { productsRoute } from "./modules/product/route";
-import { userRoute } from "./modules/user/route";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
 import { authRoute } from "./modules/auth/route";
 
+import { productsRoute } from "./modules/product/route";
+import { userRoute } from "./modules/user/route";
+import { cartRoute } from "./modules/cart/route";
+
 const app = new OpenAPIHono();
+
 app.use(cors());
 app.use(logger());
 
@@ -33,6 +36,7 @@ app.onError((error, c) => {
 app.route("/products", productsRoute);
 app.route("/users", userRoute);
 app.route("/auth", authRoute);
+app.route("/cart", cartRoute);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {
