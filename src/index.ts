@@ -36,7 +36,7 @@ app.onError((error, c) => {
 app.route("/products", productsRoute);
 app.route("/users", userRoute);
 app.route("/auth", authRoute);
-app.route("/card", cardRoute);
+app.route("/cart", cartRoute);
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/openapi.json", {

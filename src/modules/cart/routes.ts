@@ -1,7 +1,8 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../../lib/prisma";
 import { checkAuthorized } from "../auth/middleware";
-import { CartSchema } from "./schema";
+import { AddCartItemSchema, CartSchema } from "./schema";
+import { AuthHeaderSchema } from "../auth/schema";
 
 export const cartRoute = new OpenAPIHono();
 
@@ -9,6 +10,7 @@ cartRoute.openapi(
   {
     method: "get",
     path: "/",
+    request: { headers: AuthHeaderSchema },
     middleware: checkAuthorized,
     responses: {
       200: {
@@ -19,50 +21,68 @@ cartRoute.openapi(
   },
   async (c) => {
     const user = c.get("user");
-    const users = await prisma.cart.findFirst({
+    const cart = await prisma.cart.findFirst({
       where: { userId: user.id },
-      include: {
-        items: {
-          include: {
-            product: true,
-          },
-        },
-      },
+      include: { items: { include: { product: true } } },
     });
-    return c.json(users);
+
+    if (!cart) {
+      const newCart = await prisma.cart.create({
+        data: { userId: user.id },
+        include: { items: { include: { product: true } } },
+      });
+      return c.json(newCart);
+    }
+    return c.json(cart);
   }
 );
 
+// POST cart/items
 cartRoute.openapi(
   {
-    method: "get",
-    path: "/{id}",
+    method: "post",
+    path: "/items",
     request: {
-      params: UsersIdSchema,
+      headers: AuthHeaderSchema,
+      body: { content: { "application/json": { schema: AddCartItemSchema } } },
     },
+    middleware: checkAuthorized,
     responses: {
       200: {
-        description: "User by ID",
-        content: {
-          "application/json": {
-            schema: PublicUserSchema,
-          },
-        },
+        content: { "application/json": { schema: CartSchema } },
+        description: "List of Users",
       },
-      404: { description: "404 not found" },
+      400: {
+        description: "Failed to add item to chart",
+      },
     },
   },
   async (c) => {
-    const id = c.req.param("id");
-    const user = await prisma.user.findUnique({
-      where: { id },
-      omit: {
-        email: true,
-      },
-    });
-    if (!user) {
-      return c.json(404);
+    try {
+      const body = c.req.valid("json");
+      const user = c.get("user");
+      const cart = await prisma.cart.findFirst({
+        where: { userId: user.id },
+        include: { items: { include: { product: true } } },
+      });
+
+      if (!cart) {
+        return c.json({ message: "Cart not found" }, 400);
+      }
+
+      const newCartItem = await prisma.cartItem.create({
+        data: {
+          cartId: cart.id,
+          productId: body.productId,
+          quantity: body.quantity,
+        },
+        include: { product: true },
+      });
+
+      return c.json(newCartItem);
+    } catch (error) {
+      console.error(error, 400);
+      return c.json({ message: error }, 404);
     }
-    return c.json(user);
   }
 );

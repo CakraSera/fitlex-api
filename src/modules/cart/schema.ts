@@ -38,4 +38,9 @@ export const CartSchema = z.object({
   }),
 });
 
+export const AddCartItemSchema = z.object({
+  productId: z.string(),
+  quantity: z.number() .default(1),
+});
+
 export type PrivateUser = z.infer<typeof CartSchema>;
