@@ -10,10 +10,6 @@ import { Prisma } from "./generated/prisma";
 import { productsRoute } from "./modules/product/route";
 import { userRoute } from "./modules/user/route";
 import { authRoute } from "./modules/auth/route";
-import { cartRoute } from "./modules/cart/routes";
-
-import { productsRoute } from "./modules/product/route";
-import { userRoute } from "./modules/user/route";
 import { cartRoute } from "./modules/cart/route";
 
 const app = new OpenAPIHono();
