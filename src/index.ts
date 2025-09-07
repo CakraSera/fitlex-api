@@ -5,7 +5,12 @@ import { logger } from "hono/logger";
 import { Scalar } from "@scalar/hono-api-reference";
 import z, { ZodError } from "zod";
 import { Prisma } from "./generated/prisma";
+
+// Import routes
+import { productsRoute } from "./modules/product/route";
+import { userRoute } from "./modules/user/route";
 import { authRoute } from "./modules/auth/route";
+import { cartRoute } from "./modules/cart/routes";
 
 import { productsRoute } from "./modules/product/route";
 import { userRoute } from "./modules/user/route";
