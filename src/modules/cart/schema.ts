@@ -15,6 +15,8 @@ export const CartItemSchema = z.object({
   updatedAt: z.date(),
 });
 
+export type CartItem = z.infer<typeof CartItemSchema>;
+
 export const CartSchema = z.object({
   // The unique ID for the user, typically an auto-generated string.
   id: z.string().openapi({
@@ -40,7 +42,13 @@ export const CartSchema = z.object({
 
 export const AddCartItemSchema = z.object({
   productId: z.string(),
-  quantity: z.number() .default(1),
+  quantity: z.number().default(1),
 });
+
+export const DeleteCartItemSchema = z.object({
+  productId: z.string(),
+  quantity: z.number().default(1),
+});
+
 
 export type PrivateUser = z.infer<typeof CartSchema>;
