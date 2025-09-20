@@ -1,7 +1,12 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { prisma } from "../../lib/prisma";
 import { checkAuthorized } from "../auth/middleware";
-import { AddCartItemSchema, CartItem, CartSchema } from "./schema";
+import {
+  AddCartItemSchema,
+  CartItem,
+  CartSchema,
+  UpdateCartItemSchema,
+} from "./schema";
 import { AuthHeaderSchema } from "../auth/schema";
 
 export const cartRoute = new OpenAPIHono();
@@ -74,7 +79,9 @@ cartRoute.openapi(
         (item) => item.product.id === body.productId
       );
 
-      if (cartItemAvailable) {
+      console.log({ cartItemAvailable });
+
+      if (cartItemAvailable.length > 0) {
         // update data prisma on here
         const updatedCartItem = await prisma.cartItem.update({
           where: { id: cartItemAvailable[0].id },
@@ -144,6 +151,64 @@ cartRoute.openapi(
       return c.json(deleteCartItem, 200);
     } catch (err) {
       console.log(err);
+    }
+  }
+);
+
+// Update cart/update
+cartRoute.openapi(
+  {
+    method: "patch",
+    path: "/items/{cart_item_id}",
+    request: {
+      headers: AuthHeaderSchema,
+      body: {
+        content: { "application/json": { schema: UpdateCartItemSchema } },
+      },
+    },
+    middleware: checkAuthorized,
+    responses: {
+      200: {
+        content: { "application/json": { schema: CartSchema } },
+        description: "Succesfully update cart item",
+      },
+    },
+  },
+  async (c) => {
+    try {
+      const body = c.req.valid("json");
+      const user = c.get("user");
+      const cartItemId = c.req.param("cart_item_id");
+      const cart = await prisma.cart.findFirst({
+        where: { userId: user.id },
+        include: { items: { include: { product: true } } },
+      });
+
+      if (!cart) {
+        return c.json({ message: "Cart not found" }, 400);
+      }
+
+      const cartItemAvailable: CartItem[] = cart.items.filter(
+        (item) => item.product.id === cartItemId
+      );
+
+      console.log({ cartItemAvailable });
+
+      if (cartItemAvailable.length > 0) {
+        // update data prisma on here
+        const updatedCartItem = await prisma.cartItem.update({
+          where: { id: cartItemAvailable[0].id },
+
+          data: {
+            quantity: cartItemAvailable[0].quantity + body.quantity,
+          },
+        });
+
+        return c.json(updatedCartItem);
+      }
+    } catch (error) {
+      console.error(error, 400);
+      return c.json({ message: error }, 404);
     }
   }
 );

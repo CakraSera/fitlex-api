@@ -1,5 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import { productSchema } from "../product/schema";
+import { createdAt, updatedAt } from "../common/schema";
 
 export const CartItemSchema = z.object({
   id: z.string(),
@@ -11,8 +12,8 @@ export const CartItemSchema = z.object({
 
   cartId: z.string(),
 
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt,
+  updatedAt,
 });
 
 export type CartItem = z.infer<typeof CartItemSchema>;
@@ -25,19 +26,8 @@ export const CartSchema = z.object({
   }),
 
   items: z.array(CartItemSchema),
-
-  // The timestamp when the user account was created.
-  createdAt: z.date().openapi({
-    description: "The UTC timestamp of when the user account was created",
-    example: "2023-10-27T10:00:00Z",
-  }),
-
-  // The timestamp of the last time the user account was updated.
-  updatedAt: z.date().openapi({
-    description:
-      "The UTC timestamp of the last time the user account was updated",
-    example: "2023-10-27T10:30:00Z",
-  }),
+  createdAt,
+  updatedAt,
 });
 
 export const AddCartItemSchema = z.object({
@@ -49,6 +39,5 @@ export const DeleteCartItemSchema = z.object({
   productId: z.string(),
   quantity: z.number().default(1),
 });
-
-
+export const UpdateCartItemSchema = AddCartItemSchema.required();
 export type PrivateUser = z.infer<typeof CartSchema>;

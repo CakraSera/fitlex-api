@@ -1,4 +1,5 @@
 import { z } from "@hono/zod-openapi";
+import { createdAt, updatedAt } from "../common/schema";
 
 export const AuthRegisterSchema = z.object({
   fullName: z.string(),
@@ -24,6 +25,6 @@ export const AuthMeSchema = z.object({
   id: z.string(),
   fullName: z.string(),
   email: z.email(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt,
+  updatedAt,
 });

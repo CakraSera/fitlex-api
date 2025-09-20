@@ -10,7 +10,7 @@ export async function signToken(userId: string) {
   const payload: Payload = {
     sub: userId,
     role: "user",
-    exp: Math.floor(Date.now() / 1000) + 60 * 5,
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 12,
   };
   const secret: string = String(process.env.TOKEN_SECRET_KEY);
   const token = await sign(payload, secret);

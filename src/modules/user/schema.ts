@@ -1,4 +1,5 @@
 import { z } from "@hono/zod-openapi";
+import { createdAt, updatedAt } from "../common/schema";
 
 export const UserSchema = z.object({
   // The unique ID for the user, typically an auto-generated string.
@@ -25,18 +26,8 @@ export const UserSchema = z.object({
     example: "cakra.buana@example.com",
   }),
 
-  // The timestamp when the user account was created.
-  createdAt: z.date().openapi({
-    description: "The UTC timestamp of when the user account was created",
-    example: "2023-10-27T10:00:00Z",
-  }),
-
-  // The timestamp of the last time the user account was updated.
-  updatedAt: z.date().openapi({
-    description:
-      "The UTC timestamp of the last time the user account was updated",
-    example: "2023-10-27T10:30:00Z",
-  }),
+  createdAt,
+  updatedAt,
 });
 
 export const PrivateUserSchema = UserSchema;
