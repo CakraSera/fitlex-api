@@ -39,5 +39,7 @@ export const DeleteCartItemSchema = z.object({
   productId: z.string(),
   quantity: z.number().default(1),
 });
-export const UpdateCartItemSchema = AddCartItemSchema.required();
+export const UpdateCartItemSchema = AddCartItemSchema.pick({
+  quantity: true,
+});
 export type PrivateUser = z.infer<typeof CartSchema>;

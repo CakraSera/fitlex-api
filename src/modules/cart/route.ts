@@ -58,7 +58,7 @@ cartRoute.openapi(
         description: "List of Users",
       },
       400: {
-        description: "Failed to add item to chart",
+        description: "Failed to add item to cart",
       },
     },
   },
@@ -104,7 +104,7 @@ cartRoute.openapi(
         return c.json(newCartItem);
       }
     } catch (error) {
-      console.error(error, 400);
+      console.error(error, 404);
       return c.json({ message: error }, 404);
     }
   }
@@ -124,6 +124,9 @@ cartRoute.openapi(
       200: {
         content: { "application/json": { schema: CartSchema } },
         description: "Succesfully delete cart item",
+      },
+      400: {
+        description: "Failed to delete itom from cart",
       },
     },
   },
@@ -147,10 +150,10 @@ cartRoute.openapi(
         },
       });
 
-      // console.log("🚀 ~ cartItemAvailable:", cartItemAvailable);
       return c.json(deleteCartItem, 200);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+      return c.json({ message: error }, 404);
     }
   }
 );
@@ -172,6 +175,9 @@ cartRoute.openapi(
         content: { "application/json": { schema: CartSchema } },
         description: "Succesfully update cart item",
       },
+      404: {
+        description: "Failed to update item from cart",
+      },
     },
   },
   async (c) => {
@@ -192,22 +198,21 @@ cartRoute.openapi(
         (item) => item.product.id === cartItemId
       );
 
-      console.log({ cartItemAvailable });
-
       if (cartItemAvailable.length > 0) {
         // update data prisma on here
         const updatedCartItem = await prisma.cartItem.update({
           where: { id: cartItemAvailable[0].id },
-
           data: {
-            quantity: cartItemAvailable[0].quantity + body.quantity,
+            quantity: body.quantity,
           },
         });
 
         return c.json(updatedCartItem);
+      } else {
+        return c.json({ message: "Item from cart not found" }, 404);
       }
     } catch (error) {
-      console.error(error, 400);
+      console.error(error, 404);
       return c.json({ message: error }, 404);
     }
   }
