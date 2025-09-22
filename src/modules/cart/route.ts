@@ -5,6 +5,7 @@ import {
   AddCartItemSchema,
   CartItem,
   CartSchema,
+  ParamsCartItemById,
   UpdateCartItemSchema,
 } from "./schema";
 import { AuthHeaderSchema } from "../auth/schema";
@@ -118,6 +119,7 @@ cartRoute.openapi(
     path: "/items/{cart_item_id}",
     request: {
       headers: AuthHeaderSchema,
+      params: ParamsCartItemById,
     },
     middleware: checkAuthorized,
     responses: {
@@ -165,6 +167,7 @@ cartRoute.openapi(
     path: "/items/{cart_item_id}",
     request: {
       headers: AuthHeaderSchema,
+      params: ParamsCartItemById,
       body: {
         content: { "application/json": { schema: UpdateCartItemSchema } },
       },

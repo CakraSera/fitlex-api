@@ -30,6 +30,10 @@ export const CartSchema = z.object({
   updatedAt,
 });
 
+export const ParamsCartItemById = z.object({
+  cart_item_id: z.string(),
+});
+
 export const AddCartItemSchema = z.object({
   productId: z.string(),
   quantity: z.number().default(1),
