@@ -198,7 +198,7 @@ cartRoute.openapi(
       }
 
       const cartItemAvailable: CartItem[] = cart.items.filter(
-        (item) => item.product.id === cartItemId
+        (item) => item.id === cartItemId
       );
 
       if (cartItemAvailable.length > 0) {
