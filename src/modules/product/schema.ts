@@ -1,5 +1,12 @@
 import { z } from "@hono/zod-openapi";
 
+export const productQueryParamsSchema = z.object({
+  q: z.string().min(1).optional().openapi({
+    description: "Search term to filter products by name or description",
+    example: "kettlebell",
+  }),
+});
+
 export const productSchema = z.object({
   id: z.string().openapi({
     description: "The unique identifier for the product",

@@ -1,5 +1,10 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import { productListSchema, productSchema, productSlugSchema } from "./schema";
+import {
+  productListSchema,
+  productQueryParamsSchema,
+  productSchema,
+  productSlugSchema,
+} from "./schema";
 import { prisma } from "../../lib/prisma";
 
 export const productsRoute = new OpenAPIHono();
@@ -8,6 +13,9 @@ productsRoute.openapi(
   {
     method: "get",
     path: "/",
+    request: {
+      query: productQueryParamsSchema,
+    },
     responses: {
       200: {
         description: "List of products",
@@ -20,7 +28,15 @@ productsRoute.openapi(
     },
   },
   async (c) => {
+    const q = c.req.query("q") ? c.req.query("q") : "";
+
     const products = await prisma.product.findMany({
+      where: {
+        name: {
+          contains: q,
+          mode: "insensitive",
+        },
+      },
       orderBy: {
         name: "asc",
       },
@@ -105,3 +121,5 @@ productsRoute.openapi(
     return c.json(product);
   }
 );
+
+// Get Categories
