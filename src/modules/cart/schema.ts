@@ -31,7 +31,7 @@ export const CartSchema = z.object({
 });
 
 export const ParamsCartItemById = z.object({
-  cart_item_id: z.string(),
+  id: z.string(),
 });
 
 export const AddCartItemSchema = z.object({

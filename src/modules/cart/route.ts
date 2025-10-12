@@ -116,7 +116,7 @@ cartRoute.openapi(
 cartRoute.openapi(
   {
     method: "delete",
-    path: "/items/{cart_item_id}",
+    path: "/items/{id}",
     request: {
       headers: AuthHeaderSchema,
       params: ParamsCartItemById,
@@ -134,7 +134,7 @@ cartRoute.openapi(
   },
   async (c) => {
     try {
-      const cartItemId = c.req.param("cart_item_id");
+      const cartItemId = c.req.param("id");
       console.log("🚀 ~ cartItemId:", cartItemId);
       const user = c.get("user");
       const cart = await prisma.cart.findFirst({
@@ -164,7 +164,7 @@ cartRoute.openapi(
 cartRoute.openapi(
   {
     method: "patch",
-    path: "/items/{cart_item_id}",
+    path: "/items/{id}",
     request: {
       headers: AuthHeaderSchema,
       params: ParamsCartItemById,
@@ -187,7 +187,7 @@ cartRoute.openapi(
     try {
       const body = c.req.valid("json");
       const user = c.get("user");
-      const cartItemId = c.req.param("cart_item_id");
+      const cartItemId = c.req.param("id");
       const cart = await prisma.cart.findFirst({
         where: { userId: user.id },
         include: { items: { include: { product: true } } },

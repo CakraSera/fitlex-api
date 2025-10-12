@@ -43,6 +43,7 @@ export const productSchema = z.object({
     description: "A brief description of the product",
     example: "A versatile kettlebell that can be collapsed for easy storage.",
   }),
+  // TODO: Add sku & category
 });
 
 export const productListSchema = z.array(productSchema);
